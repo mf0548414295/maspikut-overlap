@@ -1,0 +1,11 @@
+*/node_modules
+client/build
+client/dist
+client/package-lock.json
+.devcontainer
+*.code-workspace
+
+server/build
+server/package-lock.json
+server/snapshots
+.env

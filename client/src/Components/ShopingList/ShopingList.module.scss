@@ -1,0 +1,28 @@
+.chooseProductContainer{
+    display: flex;
+    gap:10px;
+    justify-content: center;
+    align-items: center;
+}
+.shopingListContainer{
+    width:100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap:50px;
+}
+.productsByCategory{
+    display: flex;
+    gap:30px;
+    justify-content: center;
+    align-items: center;
+}
+.oneProductByCategory{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.category{
+    display: flex;
+    gap:5px;
+}
