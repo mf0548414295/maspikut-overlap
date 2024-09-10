@@ -8,11 +8,11 @@ export class Force {
 	@Column()
 	name!: string;
 
-	@Column()
+	@Column({nullable: true,default:1})
 	competence!: 1 | 2 | 3;
 
-	@Column()
-	location!: string;
+	@Column('geography', { spatialFeatureType: 'Point', srid: 4326,nullable: true})
+	location!: { type: 'Point'; coordinates: [number, number] };
 
 	@UpdateDateColumn({
 		type: 'timestamptz',

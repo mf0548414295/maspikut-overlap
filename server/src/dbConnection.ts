@@ -22,13 +22,37 @@ export const dbConnection = new DataSource({
 	...configPostgresDb,
 });
 
+
+
+
+
+// async function createTrigger() {
+//     await dbConnection.query(`
+//         CREATE OR REPLACE FUNCTION log_competence_change() 
+//         RETURNS TRIGGER AS $$
+//         BEGIN
+//             INSERT INTO audit_forces (force_id, old_competence, new_competence)
+//             VALUES (NEW.id, OLD.competence, NEW.competence);
+//             RETURN NEW;
+//         END;
+//         $$ LANGUAGE plpgsql;
+
+//         CREATE TRIGGER competence_change
+//         AFTER UPDATE OF competence ON forces
+//         FOR EACH ROW EXECUTE FUNCTION log_competence_change();
+//     `);
+// }
+
+
+
+
 export const connectToPostgresDB = async () => {
 	try {
 		await dbConnection.initialize();
+		// await createTrigger();
 		console.log('Connected to postgres db!');
-	} catch (error) {
-		console.log(`There was an error connecting to db: ${error}`);
-
+	} catch (error:any) {
+		console.log(`There was an error connecting to db: ${error.stack}`);
 		throw error;
 	}
 };

@@ -28,12 +28,12 @@ __decorate([
     __metadata("design:type", String)
 ], Force.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true, default: 1 }),
     __metadata("design:type", Number)
 ], Force.prototype, "competence", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)('geography', { spatialFeatureType: 'Point', srid: 4326, nullable: true }),
+    __metadata("design:type", Object)
 ], Force.prototype, "location", void 0);
 __decorate([
     (0, typeorm_1.UpdateDateColumn)({

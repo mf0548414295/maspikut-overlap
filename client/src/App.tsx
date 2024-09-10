@@ -1,10 +1,10 @@
 import './App.css';
-import ShopingList from './Components/ShopingList/ShopingList';
+import CompetentForcesTable from './Components/CompetentForcesTable/CompetentForcesTable';
 
 function App() {
 
   return (
-   <ShopingList/>
+   <CompetentForcesTable/>
   )
 }
 

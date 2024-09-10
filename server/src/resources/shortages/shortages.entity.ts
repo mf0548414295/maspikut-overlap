@@ -2,17 +2,17 @@ import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateCol
 import { Force } from '../forces/forces.entity';
 
 export enum ShortageStatus {
-	OPEN = 1,        
-	IN_PROGRESS = 2, 
-	CLOSED = 3       
-  }
+	OPEN = 1,
+	IN_PROGRESS = 2,
+	CLOSED = 3,
+}
 
 @Entity('shortages')
 export class Shortage {
-	@PrimaryGeneratedColumn('uuid')
-	id!: string;
+	@PrimaryGeneratedColumn()
+	id!: number;
 
-	@ManyToOne(() => Force, (force) => force.id, { onDelete: 'CASCADE' })
+	@ManyToOne(() => Force, { onDelete: 'CASCADE' })
 	force!: Force;
 
 	@Column()
@@ -21,8 +21,8 @@ export class Shortage {
 	@Column({
 		type: 'enum',
 		enum: ShortageStatus,
-	  })
-	  status!: ShortageStatus;
+	})
+	status!: ShortageStatus;
 
 	@UpdateDateColumn({
 		type: 'timestamptz',

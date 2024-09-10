@@ -27,11 +27,11 @@ let Shortage = class Shortage {
     createdAt;
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
-    __metadata("design:type", String)
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    __metadata("design:type", Number)
 ], Shortage.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => forces_entity_1.Force, (force) => force.id, { onDelete: 'CASCADE' }),
+    (0, typeorm_1.ManyToOne)(() => forces_entity_1.Force, { onDelete: 'CASCADE' }),
     __metadata("design:type", forces_entity_1.Force)
 ], Shortage.prototype, "force", void 0);
 __decorate([
