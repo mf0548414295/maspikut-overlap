@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 const configPostgresDb: Partial<PostgresConnectionOptions> = {
-	synchronize: process.env.DB_SYNCHRONIZE === 'true',
+	synchronize: false,
 	logging: process.env.DB_LOGGING === 'true',
 	host: process.env.DB_HOST ?? 'localhost',
 	port: +(process.env.DB_PORT ?? 5432),

@@ -20,7 +20,7 @@ const CompetentForcesTable = () => {
 		const [lat, lng] = location.coordinates; 
 
 		return (
-			<LoadScript googleMapsApiKey='AIzaSyAvEWqq_5CmBXalWSuoyUI9o3WY7jR97l4'>
+			<LoadScript googleMapsApiKey={import.meta.env.VITE_API_KEY}>
 				<GoogleMap mapContainerStyle={{ height: '400px', width: '100%' }} center={{ lat, lng }} zoom={10}>
 					<Marker position={{ lat, lng }} />
 				</GoogleMap>

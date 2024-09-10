@@ -9,7 +9,7 @@ const typeorm_1 = require("typeorm");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const configPostgresDb = {
-    synchronize: process.env.DB_SYNCHRONIZE === 'true',
+    synchronize: false,
     logging: process.env.DB_LOGGING === 'true',
     host: process.env.DB_HOST ?? 'localhost',
     port: +(process.env.DB_PORT ?? 5432),
