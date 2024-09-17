@@ -1,22 +1,22 @@
 import { Entity, PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn } from 'typeorm';
+export type Competence = 1 | 2 | 3;
 
 @Entity('forces')
 export class Force {
-	@PrimaryGeneratedColumn('uuid')
-	id!: string;
+	@PrimaryGeneratedColumn()
+	id!: number;
 
 	@Column()
 	name!: string;
 
 	@Column()
-	competence!: 1 | 2 | 3;
+	competence!: Competence;
 
-	@Column('geometry', { 
-		spatialFeatureType: 'Point', 
-		srid: 4326, 
+	@Column('geometry', {
+		spatialFeatureType: 'Point',
+		srid: 4326,
 	})
 	location!: { type: 'Point'; coordinates: [number, number] };
-	
 
 	@UpdateDateColumn({
 		type: 'timestamptz',

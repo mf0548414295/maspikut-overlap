@@ -1,27 +1,74 @@
 import { getCompetentForces } from '../../Services/forces.service';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
 import { Force } from '../../Models/force.model';
+import { Modal, IconButton } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete'; 
+import './CompetentForcesTable.css';
+import { AddForceForm } from './AddForceForm/AddForceForm';
+import { mapContainerClose, mapContainerOpen } from './ComponentForcesTable.StyleSheet';
 
-const CompetentForcesTable = () => {
+const CompetentForcesTable: React.FC = () => {
 	const [competentForces, setCompetentForces] = useState<Force[]>([]);
+	const [selectedMap, setSelectedMap] = useState<[number, number] | null>(null);
+	const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+	const handleOpenMap = (coordinates: [number, number]) => {
+		setSelectedMap(coordinates);
+		setModalOpen(true);
+	};
+
+	const handleCloseMap = () => {
+		setSelectedMap(null);
+		setModalOpen(false);
+	};
+
+	const handleDeleteForce = (id: number) => {
+		setCompetentForces(competentForces.filter((force) => force.id !== id));
+	};
+
 	useEffect(() => {
-		getCompetentForces().then((data) => {setCompetentForces(data);console.log(data)});
+		getCompetentForces().then((data) => setCompetentForces(data));
 	}, []);
 
 	const columns: GridColDef[] = [
-		{ field: 'id', headerName: 'ID', width: 90 },
-		{ field: 'name', headerName: 'שם הכוח', width: 150 },
-		{ field: 'competence', headerName: 'כשירות', width: 150 },
+		{ field: 'name', headerName: 'Name', width: 100 },
+		{ field: 'competence', headerName: 'Competence', width: 100 },
+		{
+			field: 'location',
+			headerName: 'Location',
+			width: 100,
+			renderCell: (params) => (
+				<div className='googleMapContainer' onClick={() => handleOpenMap(params.row.location.coordinates)}>
+					<GoogleMapComponent coordinates={params.row.location.coordinates} />
+				</div>
+			),
+		},
+		{
+			field: 'delete',
+			headerName: '',
+			width: 10,
+			renderCell: (params) => (
+				<IconButton
+					onClick={() => handleDeleteForce(params.row.id)}
+					aria-label='delete'
+					className='deleteIcon'
+				>
+					<DeleteIcon />
+				</IconButton>
+			),
+		},
 	];
 
-	const MapComponent: React.FC<{ location: { coordinates: [number, number] } }> = ({ location }) => {
-		const [lat, lng] = location.coordinates; 
+	const paginationModel = { page: 0, pageSize: 5 };
+
+	const GoogleMapComponent: React.FC<{ coordinates: [number, number] }> = ({ coordinates }) => {
+		const [lat, lng] = coordinates;
 
 		return (
 			<LoadScript googleMapsApiKey={import.meta.env.VITE_API_KEY}>
-				<GoogleMap mapContainerStyle={{ height: '400px', width: '100%' }} center={{ lat, lng }} zoom={10}>
+				<GoogleMap mapContainerStyle={modalOpen ? mapContainerOpen : mapContainerClose} center={{ lat, lng }} zoom={10}>
 					<Marker position={{ lat, lng }} />
 				</GoogleMap>
 			</LoadScript>
@@ -29,15 +76,25 @@ const CompetentForcesTable = () => {
 	};
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', height: 600 }}>
-			<DataGrid rows={competentForces} columns={columns}  checkboxSelection />
-			{competentForces.map((force) => (
-				<div key={force.id} style={{ marginTop: '20px' }}>
-					<h3>{force.name}</h3>
-					<MapComponent location={force.location} />
-				</div>
-			))}
+		<div className='componentForcesContainer'>
+			<h1>Competent Forces</h1>
+			<div className='dataGridContainer'>
+				<DataGrid
+					rows={competentForces}
+					columns={columns}
+					initialState={{ pagination: { paginationModel } }}
+					pageSizeOptions={[5]}
+					pagination
+					getRowId={(row) => row.id!}
+					rowHeight={80}
+				/>
+			</div>
+			<AddForceForm setCompetentForces={setCompetentForces} competentForces={competentForces} />
+			<Modal open={modalOpen} onClose={handleCloseMap}>
+				<div className='containerModal'>{selectedMap && <GoogleMapComponent coordinates={selectedMap} />}</div>
+			</Modal>
 		</div>
 	);
 };
+
 export default CompetentForcesTable;

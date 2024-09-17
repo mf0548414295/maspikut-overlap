@@ -1,7 +1,9 @@
 import express from "express";
-import { getForces } from "./forces.controller";
+import { createForce, deleteForce, getForces } from "./forces.controller";
 
 export const forcesRouter = express.Router();
 
 forcesRouter
-  .get("/:type", getForces);
+  .get("/:type", getForces)
+  .post("/",createForce)
+  .delete("/:id",deleteForce);

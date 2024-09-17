@@ -1,9 +1,9 @@
-
+export type Competence = 1 | 2 | 3;
 export interface Force {
-	id: string;
+	id?: number;
 	name: string;
-	competence: 1 | 2 | 3;
+	competence: Competence;
 	location: { coordinates: [number, number] };
-	updatedAt: Date;
-	createdAt: Date;
+	updatedAt?: Date;
+	createdAt?: Date;
 }
