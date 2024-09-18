@@ -3,13 +3,15 @@ import { Competence, Force } from '../../../Models/force.model';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './AddForceForm.css';
+import { createForce } from '../../../Services/forces.service';
 
 export const AddForceForm: React.FC<{
 	setCompetentForces: React.Dispatch<React.SetStateAction<Force[]>>;
 	competentForces: Force[];
 }> = ({ setCompetentForces, competentForces }) => {
 	const handleAddForce = (newForce: Force) => {
-		newForce.id = (competentForces.length)+1;
+		createForce(newForce).then((force) => console.log(force));
+		newForce.id = competentForces.length + 1;
 		setCompetentForces((prev) => [...prev, { ...newForce }]);
 	};
 
@@ -47,11 +49,11 @@ export const AddForceForm: React.FC<{
 			onSubmit={(values, { resetForm }) => {
 				const newForce = {
 					name: values.name,
-					competence: values.competence as Competence,
-					location: { coordinates: [values.latitude, values.longitude] as [number, number] },
+					competence: Number(values.competence) as Competence,
+					location: { type: 'Point',coordinates: [Number(values.latitude), Number(values.longitude)] as [number, number] },
 				};
 				handleAddForce(newForce);
-				resetForm(); 
+				resetForm();
 			}}
 		>
 			{({ handleChange, handleBlur, values, setFieldValue }) => (
