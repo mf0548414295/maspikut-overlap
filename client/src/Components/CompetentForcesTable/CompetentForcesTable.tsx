@@ -1,10 +1,10 @@
-import { getCompetentForces } from '../../Services/forces.service';
+import { deleteForce, getCompetentForces } from '../../Services/forces.service';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
 import { Force } from '../../Models/force.model';
 import { Modal, IconButton } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import DeleteIcon from '@mui/icons-material/Delete'; 
+import DeleteIcon from '@mui/icons-material/Delete';
 import './CompetentForcesTable.css';
 import { AddForceForm } from './AddForceForm/AddForceForm';
 import { mapContainerClose, mapContainerOpen } from './ComponentForcesTable.StyleSheet';
@@ -25,7 +25,9 @@ const CompetentForcesTable: React.FC = () => {
 	};
 
 	const handleDeleteForce = (id: number) => {
-		setCompetentForces(competentForces.filter((force) => force.id !== id));
+		deleteForce(id).then(() => {
+			setCompetentForces(competentForces.filter((force) => force.id !== id));
+		});
 	};
 
 	useEffect(() => {
@@ -50,11 +52,7 @@ const CompetentForcesTable: React.FC = () => {
 			headerName: '',
 			width: 10,
 			renderCell: (params) => (
-				<IconButton
-					onClick={() => handleDeleteForce(params.row.id)}
-					aria-label='delete'
-					className='deleteIcon'
-				>
+				<IconButton onClick={() => handleDeleteForce(params.row.id)} aria-label='delete' className='deleteIcon'>
 					<DeleteIcon />
 				</IconButton>
 			),
@@ -89,7 +87,7 @@ const CompetentForcesTable: React.FC = () => {
 					rowHeight={80}
 				/>
 			</div>
-			<AddForceForm setCompetentForces={setCompetentForces} competentForces={competentForces} />
+			<AddForceForm setCompetentForces={setCompetentForces} />
 			<Modal open={modalOpen} onClose={handleCloseMap}>
 				<div className='containerModal'>{selectedMap && <GoogleMapComponent coordinates={selectedMap} />}</div>
 			</Modal>

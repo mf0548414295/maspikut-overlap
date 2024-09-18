@@ -6,13 +6,12 @@ import './AddForceForm.css';
 import { createForce } from '../../../Services/forces.service';
 
 export const AddForceForm: React.FC<{
-	setCompetentForces: React.Dispatch<React.SetStateAction<Force[]>>;
-	competentForces: Force[];
-}> = ({ setCompetentForces, competentForces }) => {
+	setCompetentForces: React.Dispatch<React.SetStateAction<Force[]>>
+}> = ({ setCompetentForces }) => {
 	const handleAddForce = (newForce: Force) => {
-		createForce(newForce).then((force) => console.log(force));
-		newForce.id = competentForces.length + 1;
-		setCompetentForces((prev) => [...prev, { ...newForce }]);
+		createForce(newForce).then((data) => {
+			setCompetentForces((prev) => [...prev, { ...data.data }]);
+		});
 	};
 
 	const handleChangeField = (
@@ -23,10 +22,10 @@ export const AddForceForm: React.FC<{
 		const value = parseInt(e.target.value, 10);
 		if (field === 'competence') {
 			if (value === 1 || value === 2 || value === 3 || e.target.value === '') {
-				setFieldValue(field, e.target.value);
+				setFieldValue(field, Number(e.target.value));
 			}
 		} else if (value >= 0 || e.target.value === '') {
-			setFieldValue(field, e.target.value);
+			setFieldValue(field, Number(e.target.value));
 		}
 	};
 
@@ -49,8 +48,11 @@ export const AddForceForm: React.FC<{
 			onSubmit={(values, { resetForm }) => {
 				const newForce = {
 					name: values.name,
-					competence: Number(values.competence) as Competence,
-					location: { type: 'Point',coordinates: [Number(values.latitude), Number(values.longitude)] as [number, number] },
+					competence: values.competence as Competence,
+					location: {
+						type: 'Point',
+						coordinates: [values.latitude, values.longitude] as [number, number],
+					},
 				};
 				handleAddForce(newForce);
 				resetForm();
