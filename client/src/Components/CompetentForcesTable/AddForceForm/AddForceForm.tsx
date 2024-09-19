@@ -19,13 +19,14 @@ export const AddForceForm: React.FC<{
 		setFieldValue: Function,
 		field: string
 	) => {
-		const value = parseInt(e.target.value, 10);
+		const value = Number(e.target.value);
+        console.log(value);
 		if (field === 'competence') {
-			if (value === 1 || value === 2 || value === 3 || e.target.value === '') {
-				setFieldValue(field, Number(e.target.value));
+			if (value === 1 || value === 2 || value === 3 ||e.target.value==='') {
+				setFieldValue(field, e.target.value);
 			}
-		} else if (value >= 0 || e.target.value === '') {
-			setFieldValue(field, Number(e.target.value));
+		} else if (value >= 0) {
+			setFieldValue(field, e.target.value);
 		}
 	};
 
