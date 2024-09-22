@@ -1,12 +1,14 @@
+/** @format */
+
 import { Button, TextField } from '@mui/material';
-import { Competence, Force } from '../../../Models/force.model';
+import { Competence, Force } from '../../Models/force.model';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import './AddForceForm.css';
-import { createForce } from '../../../Services/forces.service';
+import { createForce } from '../../Services/forces.service';
 
 export const AddForceForm: React.FC<{
-	setCompetentForces: React.Dispatch<React.SetStateAction<Force[]>>
+	setCompetentForces: React.Dispatch<React.SetStateAction<Force[]>>;
 }> = ({ setCompetentForces }) => {
 	const handleAddForce = (newForce: Force) => {
 		createForce(newForce).then((data) => {
@@ -20,13 +22,13 @@ export const AddForceForm: React.FC<{
 		field: string
 	) => {
 		const value = Number(e.target.value);
-        console.log(value);
+		console.log(value);
 		if (field === 'competence') {
-			if (value === 1 || value === 2 || value === 3 ||e.target.value==='') {
-				setFieldValue(field, e.target.value);
+			if (value === 1 || value === 2 || value === 3 || e.target.value === '') {
+				setFieldValue(field, value);
 			}
 		} else if (value >= 0) {
-			setFieldValue(field, e.target.value);
+			setFieldValue(field, value);
 		}
 	};
 

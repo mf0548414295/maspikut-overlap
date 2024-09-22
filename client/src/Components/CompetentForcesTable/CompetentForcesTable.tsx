@@ -6,13 +6,19 @@ import { Modal, IconButton } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './CompetentForcesTable.css';
-import { AddForceForm } from './AddForceForm/AddForceForm';
+import { AddForceForm } from '../AddForceForm/AddForceForm';
 import { mapContainerClose, mapContainerOpen } from './ComponentForcesTable.StyleSheet';
+import { useNavigate } from 'react-router-dom';
 
 const CompetentForcesTable: React.FC = () => {
 	const [competentForces, setCompetentForces] = useState<Force[]>([]);
 	const [selectedMap, setSelectedMap] = useState<[number, number] | null>(null);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
+	const navigate = useNavigate();
+
+	const goToHomePage = () => {
+		navigate('/'); 
+	};
 
 	const handleOpenMap = (coordinates: [number, number]) => {
 		setSelectedMap(coordinates);
@@ -91,6 +97,9 @@ const CompetentForcesTable: React.FC = () => {
 			<Modal open={modalOpen} onClose={handleCloseMap}>
 				<div className='containerModal'>{selectedMap && <GoogleMapComponent coordinates={selectedMap} />}</div>
 			</Modal>
+			<button onClick={goToHomePage} className='goToHomeButton'>
+				Back to Home
+			</button>
 		</div>
 	);
 };

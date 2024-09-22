@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { Force } from './forces.entity';
 import { dbConnection } from '../../dbConnection';
+import { Shortage } from '../shortages/shortages.entity';
 
 export const getForces: RequestHandler = async (req, res) => {
 	try {
@@ -15,6 +16,23 @@ export const getForces: RequestHandler = async (req, res) => {
 				.leftJoin('Shortage', 'shortage', 'shortage.forceId = force.id')
 				.groupBy('force.id')
 				.having('COUNT(shortage.id) < 10')
+				.getMany();
+		} else if (req.params.type === 'incompetent') {
+			forces = await dbConnection
+				.getRepository(Force)
+				.createQueryBuilder('force')
+				.leftJoinAndSelect('force.shortages', 'shortage') // assuming you have a relation defined between Force and Shortage
+				.groupBy('force.id')
+				.having('COUNT(shortage.id) >= 10')
+				.select([
+					'force.id',
+					'force.name',
+					'force.competence',
+					'force.location',
+					'shortage.id',
+					'shortage.name',
+					'shortage.status',
+				])
 				.getMany();
 		}
 		res.status(200).send(forces);

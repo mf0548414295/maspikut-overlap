@@ -19,25 +19,24 @@
 	overflow-y: auto;
 	background-color: red;
 }
-.addForceContainer{
+.addForceContainer {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
 }
-.componentForcesContainer{
+.componentForcesContainer {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-	gap:30px;
+	gap: 30px;
 }
 
 .googleMapContainer {
-	/* width: 30%;  */
 	cursor: pointer;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin:15px;
+	margin: 15px;
 }
 .deleteIcon {
 	visibility: hidden;
@@ -46,6 +45,17 @@
 .MuiDataGrid-row:hover .deleteIcon {
 	visibility: visible;
 }
-.dataGridContainer{
+.dataGridContainer {
 	width: 19%;
+}
+
+.goToHomeButton {
+	background: #007bff;
+	color: white;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: background-color 0.3s ease;
 }
