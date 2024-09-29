@@ -1,0 +1,82 @@
+.incompetentForcesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+.removeButton {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.removeButton:hover {
+  background-color: #ff7875;
+}
+
+.goToHomeButton {
+  background: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.dataGridIncompetentForcesContainer {
+  width: 35%;
+}
+
+.dataGridIncompetentForcesContainer .MuiDataGrid-cell {
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+  padding: 0;
+}
+
+.containerModal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  width: 500px;
+  max-height: 80%;
+  overflow-y: auto;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+.shortageRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.shortageField {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}
+
+.statusField {
+  display: flex;
+  align-items: center;
+  width: 45%;
+}
+
+.modalHeader {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+

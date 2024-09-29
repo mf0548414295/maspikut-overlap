@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import { Force } from './forces.entity';
 import { dbConnection } from '../../dbConnection';
+import { ShortageStatus } from '../shortages/shortages.entity';
 
 export const getForces: RequestHandler = async (req, res) => {
   try {
@@ -24,17 +25,28 @@ export const getForces: RequestHandler = async (req, res) => {
         .groupBy('force.id')
         .having('COUNT(shortage.id) >= 10')
         .select([
-          'force.id AS force_id',
-          'force.name AS force_name',
-          'force.competence AS force_competence',
-          'force.location AS force_location',
+          'force.id AS id',
+          'force.name AS name',
+          'force.competence AS competence',
+          'ST_AsGeoJSON(force.location) AS location',
           'array_agg(shortage.id) AS shortage_ids',
           'array_agg(shortage.name) AS shortage_names',
-          'array_agg(shortage.status) AS shortage_statuses',
+          'array_agg(shortage.status::text) AS shortage_statuses',
         ])
         .getRawMany();
+      forces = forces.map((force) => ({
+        ...force,
+        location: JSON.parse(force.location),
+        shortage_statuses: force.shortage_statuses.map(
+          (status: string) =>
+            ShortageStatus[status as keyof typeof ShortageStatus]
+        ),
+      }));
     }
-    res.status(200).send(forces);
+    res.status(201).json({
+      status: 'success',
+      data: forces,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send('error');
